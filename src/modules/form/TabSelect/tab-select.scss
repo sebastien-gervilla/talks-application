@@ -1,0 +1,49 @@
+@use '@/styles/theme' as *;
+
+.tab-select-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+        font-weight: 500;
+    }
+
+    .tab-select {
+        display: flex;
+        gap: 4px;
+
+        padding: 5px;
+
+        background-color: $grey-100;
+        border-radius: $radius-8;
+
+        .option {
+            flex-grow: 1;
+            padding: $size-4 $size-12;
+
+            color: $grey-700;
+            border-radius: $radius;
+
+            cursor: pointer;
+            transition: .2s ease;
+
+            &.selected {
+                color: $grey-800;
+                background-color: $grey-0;
+                box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.05);
+
+                transition: .2s ease;
+            }
+
+            &.empty {
+                cursor: default;
+            }
+
+            p {
+                text-align: center;
+                font-weight: 500;
+            }
+        }
+    }
+}
