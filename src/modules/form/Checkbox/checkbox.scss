@@ -1,0 +1,34 @@
+@use '@/styles/theme' as *;
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: $size-20;
+    height: $size-20;
+
+    border: 1px solid $grey-900;
+    border-radius: 4px;
+
+    &[data-state=checked] {
+        background-color: $grey-900;
+
+        svg {
+            color: $grey-0;
+        }
+    }
+
+    &[data-state=unchecked] {
+        background-color: unset;
+
+        svg {
+            color: $grey-900;
+        }
+    }
+    
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
