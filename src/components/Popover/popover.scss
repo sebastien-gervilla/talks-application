@@ -1,0 +1,14 @@
+@use '@/styles/theme' as *;
+@use '@/styles/animations' as *;
+
+.popover {
+    position: absolute;
+
+    border-radius: $radius;
+    background-color: $grey-0;
+    box-shadow: $box-shadow-light;
+
+    .popover-content {
+        animation: $pop-up-animation;
+    }
+}
