@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Application
-import { Login, Register, Conferences } from '@/pages';
+import { Login, Register, Conferences, Speakers } from '@/pages';
 import { RouteSegment } from './types';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -17,6 +17,7 @@ const Router: FC = () => {
 
                 <Route element={<ProtectedRoute />}>
                     <Route path={`/${RouteSegment.Conferences}`} element={<Conferences />} />
+                    <Route path={`/${RouteSegment.Speakers}`} element={<Speakers />} />
 
                     <Route path='*' element={<Conferences />} />
                 </Route>

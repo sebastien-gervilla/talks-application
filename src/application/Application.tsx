@@ -5,13 +5,16 @@ import { FC } from 'react';
 import '@/styles/index.scss';
 import Router from './router/Router';
 import { AuthenticationContextProvider } from '@/contexts/AuthenticationContext';
+import { ThemeContextProvider } from '@/contexts/ThemeContext';
 
 const Application: FC = () => {
     return (
         <div className='application'>
-            <AuthenticationContextProvider>
-                <Router />
-            </AuthenticationContextProvider>
+            <ThemeContextProvider>
+                <AuthenticationContextProvider>
+                    <Router />
+                </AuthenticationContextProvider>
+            </ThemeContextProvider>
         </div>
     );
 }
