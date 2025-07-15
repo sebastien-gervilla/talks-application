@@ -1,0 +1,142 @@
+@use '../theme' as *;
+
+button.animated, a.animated-button {
+
+    // Base styles
+    padding: $size-8 $size-16;
+
+    border: 1px solid;
+    border-radius: $radius;
+
+    font-weight: 500;
+    font-size: $size-16;
+
+    cursor: pointer;
+    transition: .2s ease;
+
+    &.with-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &:hover, &:focus-visible {
+        transition: .2s ease;
+    }
+
+    // Filled variant (default)
+    color: $static-grey-0;
+    border-color: $main-500;
+    background-color: $main-500;
+
+    &:hover, &:focus-visible {
+        border-color: $main-700;
+        background-color: $main-700;
+    }
+
+    // Outlined variant
+    &.outlined {
+        color: $main-500;
+        background-color: transparent;
+
+        &:hover, &:focus-visible {
+            color: $main-500;
+            border-color: $main-500;
+            background-color: $main-100;
+        }
+
+        // Destructive variant
+        &.destructive {
+            color: $red-500;
+            border-color: $red-500;
+
+            &:hover, &:focus-visible {
+                color: $red-500;
+                border-color: $red-500;
+                background-color: $red-100;
+            }
+        }
+    }
+
+    // Text variant
+    &.text {
+
+        // Primary (default)
+        color: $main-500;
+        border-color: transparent;
+        background-color: transparent;
+
+        &:hover, &:focus-visible {
+            color: $main-500;
+            background-color: $main-200;
+        }
+
+        // Ghost
+        &.ghost {
+            color: $grey-900;
+            border-color: transparent;
+            background-color: transparent;
+    
+            &:hover, &:focus-visible {
+                color: $grey-1000;
+                background-color: $grey-200;
+            }
+        }
+    }
+
+    // Disabled variant
+    &:disabled {
+        color: $grey-500;
+        background-color: $grey-300;
+        border-color: $grey-300;
+
+        cursor: not-allowed;
+
+        &:hover, &:focus-visible {
+            color: $grey-500;
+            background-color: $grey-300;
+            border-color: $grey-300;
+        }
+    }
+}
+
+// NOTE: This could be a separate component if we need to
+button.icon-button, a.icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 8px;
+
+    border-radius: $radius;
+
+    transition: .2s ease;
+
+    &:hover, &:focus-visible {
+        background-color: $grey-100;
+
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    &.destructive {
+        color: $red-500;
+
+        &:hover, &:focus-visible {
+            background-color: $red-100;
+        }
+    }
+
+    // Disabled variant
+    &:disabled {
+        color: $grey-500;
+        background-color: transparent;
+
+        cursor: not-allowed;
+
+        &:hover, &:focus-visible {
+            color: $grey-500;
+            background-color: transparent;
+        }
+    }
+}

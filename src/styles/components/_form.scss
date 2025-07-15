@@ -1,0 +1,68 @@
+@use '../theme' as *;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    min-width: 200px;
+    padding: 32px;
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+
+        margin-bottom: $size-16;
+    }
+    
+    h3 {
+        font-size: $size-24;
+        font-weight: 600;
+    }
+
+    .row {
+        display: flex;
+        gap: 24px;
+
+        &.footer {
+            justify-content: space-between;
+
+            margin-top: $size-16;
+        }
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        gap: $size-16;
+
+        h4 {
+            font-size: $size-16;
+            font-weight: 500;
+        }
+    }
+
+    .form-field {
+        flex-basis: 0px;
+        flex-grow: 1;
+    }
+
+    button.submit {
+        margin-left: auto;
+    }
+}
+
+// [design] - TODO: derive this into a component ?
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    label {
+        line-height: 1.5; // TODO: Should all labels have 1.5 line-height ?
+
+        cursor: pointer;
+    }
+}

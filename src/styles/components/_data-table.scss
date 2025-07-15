@@ -1,0 +1,11 @@
+.data-table {
+    // We do this to have the data table adapt to the container height
+    flex-grow: 1;
+    height: 0;
+
+    .select {
+        .select-button {
+            border: none;
+        }
+    }
+}

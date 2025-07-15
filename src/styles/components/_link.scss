@@ -1,0 +1,55 @@
+@use '../theme' as *;
+
+a.animated, button.animated-link {
+    color: $main-500;
+
+    border-radius: 0;
+    border-bottom: 1px solid transparent;
+
+    transition: .1s ease;
+
+    &.with-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &:hover, &:focus-visible {
+        border-color: $main-500;
+
+        transition: .1s ease;
+    }
+
+    &.destructive {
+        color: $red-500;
+
+        &:hover, &:focus-visible {
+            border-color: $red-500;
+        }
+    }
+
+    &.ghost {
+        color: $grey-700;
+        border-color: transparent;
+
+        &:hover, &:focus-visible {
+            color: $grey-1000;
+        }
+    }
+
+    &:disabled {
+        color: $grey-500;
+
+        cursor: not-allowed;
+
+        &:hover {
+            color: $grey-500;
+            border-color: transparent;
+        }
+    }
+}

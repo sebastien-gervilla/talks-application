@@ -1,0 +1,60 @@
+// Settings
+@use './theme' as *;
+
+body {
+    color: $grey-800;
+    background-color: $grey-0;
+    
+    font-family: $font-family;
+    font-size: $size-16;
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+p {
+    font-size: $size-16;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+button, input, textarea {
+    font-family: $font-family;
+    font-size: $size-16;
+}
+
+button {
+    color: $grey-800;
+
+    cursor: pointer;
+}
+
+svg.lucide {
+    width: 20px;
+    height: 20px;
+}
+
+// Scrollbar
+::-webkit-scrollbar{
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: $grey-200;
+
+    cursor: pointer;
+
+    &:hover {
+        background: $grey-300;
+    }
+}
+   
+::-webkit-scrollbar-track {
+    border: none;
+    border-radius: 0;
+    background: $grey-0;
+}
