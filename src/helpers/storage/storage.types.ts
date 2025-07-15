@@ -4,4 +4,5 @@ export interface ApplicationStorage {
 
     // Settings
     'theme': 'light' | 'dark';
+    'is-sidebar-reduced': boolean;
 }
