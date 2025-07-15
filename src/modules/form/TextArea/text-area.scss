@@ -1,0 +1,17 @@
+@use '@/styles/theme' as *;
+
+.textarea-field {
+    .input {
+        height: 200px;
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            padding: $size-8 12px;
+
+            resize: none;
+
+            line-height: 1.5;
+        }
+    }
+}
