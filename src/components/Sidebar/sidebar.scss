@@ -1,0 +1,218 @@
+@use '@/styles/theme' as *;
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+
+    width: 275px;
+    height: 100vh;
+    padding: 16px;
+
+    border-right: 1px solid $grey-200;
+    background-color: $grey-50;
+
+    transition: .2s ease;
+
+    &.reduced {
+        width: 68px;
+
+        transition: .2s ease;
+
+        .content {
+            padding-right: 0;
+        }
+    }
+
+    .icon-button {
+        &:hover, &:focus-visible {
+            background-color: $grey-200;
+        }
+    }
+
+    .brand {
+        padding: 8px;
+
+        .application-name {
+            font-weight: 500;
+            font-size: $size-20;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        flex-grow: 1;
+
+        padding-right: 8px;
+
+        overflow-y: auto;
+
+        @include inner-scrollbar;
+
+        section {
+            display: flex;
+            flex-direction: column;
+
+            p.title {
+                padding: 8px;
+
+                color: $grey-700;
+            }
+
+            &.navigation {
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+
+                        padding: 8px;
+
+                        color: $grey-800;
+                        border-radius: $radius;
+
+                        transition: .2s ease;
+    
+                        &:not(.disabled) {
+                            &:hover, &:focus-visible {
+                                background-color: $grey-200;
+                                
+                                transition: .2s ease;
+                            }
+                        }
+
+                        &.disabled {
+                            color: $grey-700;
+    
+                            cursor: default;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer {
+        .user {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 8px;
+
+            color: $grey-800;
+            border-radius: $radius;
+
+            cursor: pointer;
+            transition: .2s ease;
+
+            &:hover, &:focus-visible {
+                outline: none;
+                background-color: $grey-200;
+                
+                transition: .2s ease;
+            }
+
+            p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                &.name {
+                    font-weight: 500;
+                }
+
+                &.role {
+                    color: $grey-700;
+                }
+            }
+        }
+    }
+}
+
+.user-menu {
+    
+    padding: 8px;
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        width: 100%;
+        height: 38px;
+        padding: 8px;
+
+        color: $grey-800;
+        border-radius: $radius;
+
+        transition: .2s ease;
+
+        p {
+            height: 22px;
+        }
+
+        &:hover, &:focus-visible {
+            background-color: $grey-200;
+            
+            transition: .2s ease;
+        }
+    }
+}
+
+.shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px;
+
+    h4 {
+        margin-bottom: $size-16;
+
+        font-size: $size-24;
+    }
+
+    .shortcut {
+        display: flex;
+        align-items: center;
+        gap: $size-16;
+
+        .key {
+            border-radius: $radius;
+            border: 2px solid $grey-600;
+
+            overflow: hidden;
+
+            p {
+                min-width: $size-40;
+
+                padding: $size-4 $size-12;
+
+                color: $grey-700;
+                border-bottom: $size-8 solid $grey-200;
+
+                pointer-events: none;
+                text-align: center;
+                font-weight: 700;
+            }
+        }
+
+        svg {
+            margin: 16px;
+
+            color: $grey-700;
+            stroke-width: 3px;
+        }
+
+        & > p {
+            font-size: $size-20;
+        }
+    }
+}
