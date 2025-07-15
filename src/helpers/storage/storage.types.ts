@@ -1,0 +1,7 @@
+export interface ApplicationStorage {
+    // Authentication
+    'token': string;
+
+    // Settings
+    'theme': 'light' | 'dark';
+}
