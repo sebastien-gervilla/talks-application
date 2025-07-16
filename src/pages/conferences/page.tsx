@@ -3,14 +3,14 @@ import { FC, JSX, useState } from 'react';
 
 // Application
 import './page.scss';
-import { Modal, Page, Toast } from '@/components';
+import { Confirmation, Modal, Page, Toast } from '@/components';
 import { PrimaryLayout } from '@/layouts';
 import { useAuthentication, useLocalStorage, useModal, useRequest, useToast } from '@/hooks';
 import { TalksService, talksService } from '@/services/talks-service';
 import { Form, FormHandler } from '@/modules/form';
 import { Header } from '@/components/Header';
 import { RouteSegment } from '@/application/router/types';
-import { Plus, Users } from 'lucide-react';
+import { PenLine, Plus, Users, X } from 'lucide-react';
 import { ConferenceForm } from './components';
 import { isSameDay } from '@/utils/date-utils';
 
@@ -85,6 +85,46 @@ const Conferences: FC = () => {
         );
     }
 
+    const handleUpdateConference = (conference: TalksService.Models.Conference.Get) => {
+        const { speaker, ...rest } = conference;
+
+        modal.openWith(
+            <ConferenceForm
+                initialForm={{
+                    ...rest,
+                    speakerId: conference.id
+                }}
+                onSubmit={async (form) => { // [error-handling] - TODO: Error handling
+                    const response = await talksService.conferences.update(conference.id, form);
+                    if (!response.is(204))
+                        return toast.openDefaultFailure();
+
+                    modal.close();
+                    conferencesRequest.refresh();
+                    toast.openDefaultSuccess();
+                }}
+                onCancel={modal.close}
+            />
+        );
+    }
+
+    const handleDeleteConference = (speaker: TalksService.Models.Conference.Get) => {
+        modal.openWith(
+            <Confirmation
+                onValidate={async () => { // [error-handling] - TODO: Error handling
+                    const response = await talksService.conferences.delete(speaker.id);
+                    if (!response.is(204))
+                        return toast.openDefaultFailure();
+
+                    modal.close();
+                    conferencesRequest.refresh();
+                    toast.openDefaultSuccess();
+                }}
+                onCancel={modal.close}
+            />
+        );
+    }
+
     const handleJoinConference = async (conference: TalksService.Models.Conference.Get) => {
         const response = await talksService.conferences.join(conference.id);
         if (!response.is(204))
@@ -144,9 +184,25 @@ const Conferences: FC = () => {
                 >
                     <div className="top">
                         <p className='name'>{conference.name}</p>
+                        {isAdministrator && (
+                            <div className="actions">
+                                <button
+                                    className='icon-button'
+                                    onClick={() => handleUpdateConference(conference)}
+                                >
+                                    <PenLine />
+                                </button>
+                                <button
+                                    className='icon-button destructive'
+                                    onClick={() => handleDeleteConference(conference)}
+                                >
+                                    <X />
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <p className='room'>Salle: {conference.room}</p>
-                    <p className='room'>Horaire: {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
+                    <p className='room'><span>Salle</span> : {conference.room}</p>
+                    <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
                     <div className="bottom">
                         <div className="participants">
                             <Users />

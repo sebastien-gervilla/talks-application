@@ -78,6 +78,7 @@
 
                         .top {
                             display: flex;
+                            align-items: flex-start;
                             justify-content: space-between;
 
                             .actions {
@@ -90,6 +91,12 @@
                             margin-bottom: 16px;
 
                             font-size: $size-24;
+                        }
+
+                        P.room, p.schedule {
+                            span {
+                                font-weight: 500;
+                            }
                         }
 
                         .bottom {
