@@ -9,3 +9,6 @@ export { default as Conferences } from './conferences/page';
 
 // Speakers
 export { default as Speakers } from './speakers/page';
+
+// Program
+export { default as Program } from './program/page';

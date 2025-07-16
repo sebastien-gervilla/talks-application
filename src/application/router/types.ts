@@ -3,6 +3,7 @@ export enum RouteSegment {
     Login = 'login',
     Conferences = 'conferences',
     Speakers = 'speakers',
+    Program = 'program',
 }
 
 export const isPublicRoute = (route: string) => {

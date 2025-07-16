@@ -1,7 +1,7 @@
 // Librairies
 import { FC, MouseEvent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { LogOut, MicVocal, Presentation, User } from 'lucide-react';
+import { CalendarDays, LogOut, MicVocal, Presentation, User } from 'lucide-react';
 
 // Application
 import './sidebar.scss';
@@ -143,6 +143,11 @@ type Tabs = {
 }[];
 
 const talksTabs: Tabs = [
+    {
+        path: '/program',
+        name: 'Programme',
+        icon: <CalendarDays />,
+    },
     {
         path: '/conferences',
         name: 'Conférences',

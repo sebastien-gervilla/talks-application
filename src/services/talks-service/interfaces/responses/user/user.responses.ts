@@ -10,6 +10,10 @@ export interface DeleteCurrent extends HttpResponses {
     404: never;
 }
 
+export interface GetCurrentConferences extends HttpResponses {
+    200: Models.Conference.GetByDay[];
+}
+
 export interface Register extends HttpResponses {
     204: never;
     400: {
