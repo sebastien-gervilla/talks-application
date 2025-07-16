@@ -98,6 +98,7 @@ const Program = () => {
                     </div>
                     <p className='room'><span>Salle</span> : {conference.room}</p>
                     <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
+                    <p className='description'><span>Description</span> : {conference.description}</p>
                     <div className="bottom">
                         <div className="participants">
                             <Users />
