@@ -14,9 +14,9 @@ export const rooms = [
 ];
 
 export const CONFERENCES_DAYS = [
-    new Date(2025, 5, 18),  // June 18, 2025
-    new Date(2025, 5, 19),  // June 20, 2025
-    new Date(2025, 5, 20),  // June 20, 2025
+    new Date(Date.UTC(2025, 5, 18)),  // June 18, 2025
+    new Date(Date.UTC(2025, 5, 19)),  // June 20, 2025
+    new Date(Date.UTC(2025, 5, 20)),  // June 20, 2025
 ];
 
 export const START_SLOT = 1;

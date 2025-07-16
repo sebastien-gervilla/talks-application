@@ -13,7 +13,7 @@ import { RouteSegment } from '@/application/router/types';
 import { Calendar, ListFilter, PenLine, Plus, Users, X } from 'lucide-react';
 import { ConferenceForm, CreateConferenceForm } from './components';
 import { isSameDay } from '@/utils/date-utils';
-import { CONFERENCES_DAYS, getTimeFromSlot } from '@/constants/conferences';
+import { CONFERENCES_DAYS, getTimeFromSlot, MAX_SLOTS, ROOM_MAX_USERS, START_SLOT } from '@/constants/conferences';
 
 const ConferencesPage: FC = () => {
 
@@ -349,7 +349,7 @@ type ConferencesByDate = {
 
 const getDefaultDaysConferences = (): ConferencesByDate[] => {
     const conferencesByDate: ConferencesByDate[] = [];
-    for (const day of days) {
+    for (const day of CONFERENCES_DAYS) {
         conferencesByDate.push({
             date: day,
             conferences: [],
@@ -357,17 +357,6 @@ const getDefaultDaysConferences = (): ConferencesByDate[] => {
     }
     return conferencesByDate;
 }
-
-const days = [
-    new Date(2025, 5, 18),  // June 18, 2025
-    new Date(2025, 5, 19),  // June 20, 2025
-    new Date(2025, 5, 20),  // June 20, 2025
-];
-
-const START_SLOT = 1;
-const MAX_SLOTS = 10;
-
-const ROOM_MAX_USERS = 25;
 
 type View =
     | 'schedule'
