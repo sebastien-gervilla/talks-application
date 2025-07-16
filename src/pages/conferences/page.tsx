@@ -46,7 +46,12 @@ const Conferences: FC = () => {
 
     const [view, setView] = useState<View>(isAdministrator ? 'schedule' : 'filtered');
 
-    const [filters, setFilters] = useState(defaultFilters);
+    const [filters, setFilters] = useState<TalksService.Models.Conference.GetQuery>({
+        ...defaultFilters,
+        room: isAdministrator
+            ? rooms[0]
+            : undefined,
+    });
 
     const conferencesRequest = useRequest({
         request: (controller) => talksService.conferences.get(filters, controller),
@@ -420,7 +425,7 @@ const Conferences: FC = () => {
                         onClick={() => handleChangeView('filtered')}
                     >
                         <ListFilter />
-                        Filtrée
+                        Filtres
                     </button>
                     <button
                         className={'tab' + (view === 'schedule' ? ' selected' : '')}
