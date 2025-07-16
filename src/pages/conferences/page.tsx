@@ -97,7 +97,7 @@ const Conferences: FC = () => {
                     slot,
                     date,
                     speakerId: null!,
-                    room: TalksService.Models.Conference.Room.RoomA,
+                    room: filters.room || rooms[0],
                 }}
                 onSubmit={async (form) => { // [error-handling] - TODO: Error handling
                     const response = await talksService.conferences.create(form);
