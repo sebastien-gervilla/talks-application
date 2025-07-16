@@ -10,6 +10,8 @@
 
         .header {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
 
             padding-bottom: 16px;
 
@@ -17,7 +19,40 @@
 
             .filters {
                 display: flex;
+                align-items: flex-end;
                 gap: 16px;
+            }
+
+            .view-selector {
+                display: flex;
+                align-items: flex-end;
+                gap: 16px;
+
+                button {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    padding: 8px;
+
+                    border-radius: 4px;
+
+                    transition: .2s ease;
+
+                    &.selected {
+                        background-color: $grey-100;
+
+                        svg {
+                            color: $main-500;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: $grey-100;
+
+                        transition: .2s ease;
+                    }
+                }
             }
         }
 
@@ -35,82 +70,91 @@
                 flex-grow: 1;
 
                 .slot {
-                    display: flex;
                     flex-grow: 1;
+                }
+            }
+        }
 
-                    height: 200px;
+        .conferences {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
 
-                    border: 2px solid $grey-300;
-                    border-radius: 8px;
+        .slot {
+            display: flex;
 
-                    &.empty {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+            height: 200px;
 
-                        &.editable {
-                            color: $main-300;
-                            border: 2px dashed $main-300;
+            border: 2px solid $grey-300;
+            border-radius: 8px;
 
-                            cursor: pointer;
-                            transition: .2s ease;
+            &.empty {
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
-                            &:hover {
-                                color: $main-500;
-                                border-color: $main-500;
+                &.editable {
+                    color: $main-300;
+                    border: 2px dashed $main-300;
 
-                                transition: .2s ease;
-                            }
+                    cursor: pointer;
+                    transition: .2s ease;
 
-                            svg {
-                                width: 40px;
-                                height: 40px;
-                            }
-                        }
+                    &:hover {
+                        color: $main-500;
+                        border-color: $main-500;
+
+                        transition: .2s ease;
                     }
 
-                    &.conference {
+                    svg {
+                        width: 40px;
+                        height: 40px;
+                    }
+                }
+            }
+
+            &.conference {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                padding: 24px;
+
+                .top {
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+
+                    .actions {
                         display: flex;
-                        flex-direction: column;
                         gap: 8px;
+                    }
+                }
 
-                        padding: 24px;
+                p.name {
+                    margin-bottom: 16px;
 
-                        .top {
-                            display: flex;
-                            align-items: flex-start;
-                            justify-content: space-between;
+                    font-size: $size-24;
+                }
 
-                            .actions {
-                                display: flex;
-                                gap: 8px;
-                            }
-                        }
+                P.room, p.schedule {
+                    span {
+                        font-weight: 500;
+                    }
+                }
 
-                        p.name {
-                            margin-bottom: 16px;
+                .bottom {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: space-between;
 
-                            font-size: $size-24;
-                        }
+                    margin-top: auto;
 
-                        P.room, p.schedule {
-                            span {
-                                font-weight: 500;
-                            }
-                        }
-
-                        .bottom {
-                            display: flex;
-                            align-items: flex-end;
-                            justify-content: space-between;
-
-                            margin-top: auto;
-
-                            .participants {
-                                display: flex;
-                                gap: 8px;
-                            }
-                        }
+                    .participants {
+                        display: flex;
+                        gap: 8px;
                     }
                 }
             }

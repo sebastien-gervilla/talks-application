@@ -17,6 +17,7 @@ interface Props<Value, Option extends ValidOption> {
     mapOption: MapOptionFn<Value, Option>;
     isOptionSelected?: (option: MappedOption<Value>, value: Value) => boolean;
     className?: string;
+    optionsHeight?: number;
 }
 
 const Select = <Value, Option extends ValidOption>({
@@ -28,6 +29,7 @@ const Select = <Value, Option extends ValidOption>({
     mapOption,
     isOptionSelected,
     className,
+    optionsHeight = 250,
 }: Props<Value, Option>) => {
 
     const mappedOptions = useMemo(() => options.map(mapOption) || [], [options]);
@@ -105,6 +107,7 @@ const Select = <Value, Option extends ValidOption>({
                         anchor={selectRef.current}
                         options={getOptions()}
                         onOptionClick={handleToggleIsSelecting}
+                        maxHeight={optionsHeight}
                     />
                 }
             </div>
