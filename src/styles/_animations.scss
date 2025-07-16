@@ -1,0 +1,28 @@
+// Spin animation
+
+$spin-animation: spin 1s linear infinite;
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Pop up
+
+$pop-up-animation: pop-up .1s;
+
+@keyframes pop-up {
+    0% {
+        opacity: 50%;
+        transform: scale(99%);
+    }
+
+    100% {
+        opacity: 100%;
+        transform: scale(100%);
+    }
+}

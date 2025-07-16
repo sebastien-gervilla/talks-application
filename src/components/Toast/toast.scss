@@ -1,0 +1,62 @@
+@use '@/styles/theme' as *;
+@use '@/styles/animations' as *;
+
+.toast {
+    position: absolute;
+    z-index: 10000;
+    left: 32px;
+    bottom: 32px;
+
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    padding: $size-16 $size-20;
+
+    border-radius: $radius-8;
+    background-color: $grey-0;
+    box-shadow: $box-shadow;
+
+    overflow: hidden;
+
+    animation: $pop-up-animation;
+
+    &:has(.content .title) {
+        align-items: flex-start;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: $size-4;
+
+        .title {
+            font-size: $size-18;
+            font-weight: 500;
+        }
+
+        .description {
+            font-weight: 300;
+        }
+    }
+
+    &.destructive {
+        color: $grey-0;
+        background-color: $red-500;
+    }
+
+    &.positive {
+        color: $grey-0;
+        background-color: #1fb730;
+    }
+
+    .icon-button {
+        padding: 0;
+
+        color: inherit;
+        
+        &:hover, &:focus-visible {
+            background-color: unset;
+        }
+    }
+}

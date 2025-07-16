@@ -1,0 +1,22 @@
+section.primary-layout {
+    display: flex;
+
+    min-height: 100vh;
+
+    & > main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        flex-grow: 1;
+
+        width: 80%;
+        height: 100vh;
+
+        overflow-y: auto;
+
+        header.header {
+            display: flex;
+            gap: 16px;
+        }
+    }
+}

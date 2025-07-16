@@ -1,0 +1,29 @@
+@use '@/styles/theme' as *;
+
+.badge-wrapper {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 8px;
+    min-height: 8px;
+    width: fit-content;
+
+    border-radius: 100px;
+
+    overflow: hidden;
+
+    background-color: $red-500;
+
+    &.hidden {
+        display: none;
+    }
+}

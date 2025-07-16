@@ -1,0 +1,119 @@
+@use '@/styles/theme' as *;
+
+#conferences-page {
+    .conferences-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        padding: 16px;
+
+        .header {
+            display: flex;
+
+            padding-bottom: 16px;
+
+            border-bottom: 1px solid $grey-300;
+
+            .filters {
+                display: flex;
+                gap: 16px;
+            }
+        }
+
+        .days {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+
+            .day {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+
+                width: 30%;
+                flex-grow: 1;
+
+                .slot {
+                    display: flex;
+                    flex-grow: 1;
+
+                    height: 200px;
+
+                    border: 2px solid $grey-300;
+                    border-radius: 8px;
+
+                    &.empty {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        &.editable {
+                            color: $main-300;
+                            border: 2px dashed $main-300;
+
+                            cursor: pointer;
+                            transition: .2s ease;
+
+                            &:hover {
+                                color: $main-500;
+                                border-color: $main-500;
+
+                                transition: .2s ease;
+                            }
+
+                            svg {
+                                width: 40px;
+                                height: 40px;
+                            }
+                        }
+                    }
+
+                    &.conference {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+
+                        padding: 24px;
+
+                        .top {
+                            display: flex;
+                            align-items: flex-start;
+                            justify-content: space-between;
+
+                            .actions {
+                                display: flex;
+                                gap: 8px;
+                            }
+                        }
+
+                        p.name {
+                            margin-bottom: 16px;
+
+                            font-size: $size-24;
+                        }
+
+                        P.room, p.schedule {
+                            span {
+                                font-weight: 500;
+                            }
+                        }
+
+                        .bottom {
+                            display: flex;
+                            align-items: flex-end;
+                            justify-content: space-between;
+
+                            margin-top: auto;
+
+                            .participants {
+                                display: flex;
+                                gap: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

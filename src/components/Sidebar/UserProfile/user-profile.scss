@@ -1,0 +1,54 @@
+@use '@/styles/theme' as *;
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    width: 500px;
+    padding: 32px;
+
+    .header {
+        margin-bottom: $size-16;
+
+        h3 {
+            font-size: $size-24;
+            font-weight: 600;
+        }
+    }
+
+    section {
+        margin-bottom: $size-8;
+
+        h4 {
+            margin-bottom: $size-16;
+
+            font-weight: 500;
+            font-size: $size-18;
+        }
+
+        &.personal-informations {
+            .informations {
+                display: flex;
+                justify-content: space-between;
+
+                .names, .values {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .names {
+                    p {
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+    }
+}

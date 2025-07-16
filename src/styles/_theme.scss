@@ -1,0 +1,200 @@
+//
+// Variables
+// ----------------------------------------------------
+
+$box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 20px 2px;
+$box-shadow-light: rgba(100, 100, 111, 0.25) 0px 7px 29px 1px;
+$radius: 4px;
+$radius-8: 8px;
+
+$font-family: 'Geist', 'Helvetica', 'Arial', sans-serif;
+
+$z-index-modal: 1000;
+$z-index-select: 10001;
+
+//
+// Colors
+// ----------------------------------------------------
+
+:root {
+    font-size: 14px;
+
+    --white: '#FFF';
+    --black: '#000';
+
+    --main-100: #c7deff;
+    --main-200: #c7deff;
+    --main-300: #c7deff;
+    --main-400: #c7deff;
+    --main-500: #3071DC;
+    --main-600: #3071DC;
+    --main-700: #1b4fa2;
+    --main-800: #3071DC;
+    --main-900: #3071DC;
+
+    --grey-0: hsl(225deg, 0%, 100%);
+    --grey-50: hsl(240deg, 18%, 97%);
+    --grey-100: hsl(225deg, 25%, 95%);
+    --grey-200: hsl(225deg, 16%, 90%);
+    --grey-300: hsl(225deg, 8%, 80%);
+    --grey-400: hsl(225deg, 8%, 70%);
+    --grey-500: hsl(225deg, 7%, 60%);
+    --grey-600: hsl(225deg, 15%, 50%);
+    --grey-700: hsl(225deg, 12%, 40%);
+    --grey-800: hsl(225deg, 17%, 20%);
+    --grey-900: hsl(225deg, 25%, 20%);
+    --grey-1000: hsl(225deg, 15%, 15%);
+
+    --red-100: #fdeded;
+    --red-200: #fccdcd;
+    --red-300: #fa8d8d;
+    --red-500: #d32f2f;
+    --red-700: #b31717;
+
+    --green-500: #22c55e;
+    --green-700: #15803d;
+
+    --orange-100: #ffedd5;
+    --orange-300: #fdba74;
+    --orange-500: #f97316;
+}
+
+html.dark {
+    --main-100: #c7deff;
+    --main-200: #c7deff;
+    --main-300: #c7deff;
+    --main-400: #c7deff;
+    --main-500: #3071DC;
+    --main-600: #4f88e4;
+    --main-700: #78a6ef;
+    --main-800: #c7deff;
+    --main-900: #ecf4ff;
+
+    --grey-0: hsl(225deg, 15%, 15%);
+    --grey-50: hsl(225deg, 25%, 20%);
+    --grey-100: hsl(225deg, 17%, 20%);
+    --grey-200: hsl(225deg, 12%, 40%);
+    --grey-300: hsl(225deg, 15%, 50%);
+    --grey-400: hsl(225deg, 7%, 60%);
+    --grey-500: hsl(225deg, 8%, 70%);
+    --grey-600: hsl(225deg, 8%, 80%);
+    --grey-700: hsl(225deg, 16%, 90%);
+    --grey-800: hsl(225deg, 25%, 95%);
+    --grey-900: hsl(240deg, 18%, 97%);
+    --grey-1000: hsl(225deg, 0%, 100%);
+
+    --red-100: #fdeded;
+    --red-200: #fccdcd;
+    --red-300: #fa8d8d;
+    --red-500: #d32f2f;
+    --red-700: #b31717;
+
+    --green-500: #22c55e;
+    --green-700: #15803d;
+
+    --orange-100: #ffedd5;
+    --orange-300: #fdba74;
+    --orange-500: #f97316;
+}
+
+// Main
+$main-100: var(--main-100);
+$main-200: var(--main-200);
+$main-300: var(--main-300);
+$main-400: var(--main-400);
+$main-500: var(--main-500);
+$main-600: var(--main-600);
+$main-700: var(--main-700);
+$main-800: var(--main-800);
+$main-900: var(--main-900);
+
+// Grey
+$grey-0: var(--grey-0);
+$grey-50: var(--grey-50);
+$grey-100: var(--grey-100);
+$grey-200: var(--grey-200);
+$grey-300: var(--grey-300);
+$grey-400: var(--grey-400);
+$grey-500: var(--grey-500);
+$grey-600: var(--grey-600);
+$grey-700: var(--grey-700);
+$grey-800: var(--grey-800);
+$grey-900: var(--grey-900);
+$grey-1000: var(--grey-1000);
+
+$red-100: var(--red-100);
+$red-200: var(--red-200);
+$red-300: var(--red-300);
+$red-500: var(--red-500);
+$red-700: var(--red-700);
+
+$green-500: var(--green-500);
+$green-700: var(--green-700);
+
+$orange-100: var(--orange-100);
+$orange-300: var(--orange-300);
+$orange-500: var(--orange-500);
+
+// Static
+$static-grey-0: hsl(225deg, 0%, 100%);
+$static-grey-50: hsl(240deg, 18%, 97%);
+$static-grey-100: hsl(225deg, 25%, 95%);
+$static-grey-200: hsl(225deg, 16%, 90%);
+$static-grey-300: hsl(225deg, 8%, 80%);
+$static-grey-400: hsl(225deg, 8%, 70%);
+$static-grey-500: hsl(225deg, 7%, 60%);
+$static-grey-600: hsl(225deg, 15%, 50%);
+$static-grey-700: hsl(225deg, 12%, 40%);
+$static-grey-800: hsl(225deg, 17%, 20%);
+$static-grey-900: hsl(225deg, 25%, 20%);
+$static-grey-1000: hsl(225deg, 15%, 15%);
+
+//
+// Font sizes - default is 16px
+// ----------------------------------------------------
+
+$size-4: .25rem;
+$size-8: .5rem;
+$size-12: .75rem;
+$size-14: .875rem;
+$size-default: 1rem;
+$size-16: 1rem;
+$size-18: 1.125rem;
+$size-20: 1.25rem;
+$size-24: 1.5rem;
+$size-28: 1.75rem;
+$size-32: 2rem;
+$size-36: 2.25rem;
+$size-40: 2.5rem;
+$size-44: 2.75rem;
+$size-48: 3rem;
+$size-52: 3.25rem;
+$size-56: 3.5rem;
+$size-64: 4rem;
+
+$form-field-size: 38px;
+
+//
+// Scrollbars
+// ----------------------------------------------------
+
+@mixin inner-scrollbar {
+    &::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 6px;
+        background: $grey-200;
+
+        &:hover {
+            background: $grey-300;
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+    }
+}
