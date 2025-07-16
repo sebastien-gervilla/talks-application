@@ -14,6 +14,7 @@ import { Calendar, ListFilter, PenLine, Plus, Users, X } from 'lucide-react';
 import { ConferenceForm, CreateConferenceForm } from './components';
 import { isSameDay } from '@/utils/date-utils';
 import { CONFERENCES_DAYS, getTimeFromSlot, MAX_SLOTS, ROOM_MAX_USERS, rooms, START_SLOT } from '@/constants/conferences';
+import { CREATE_CONFERENCE_ERRORS, JOIN_CONFERENCE_ERRORS, LEAVE_CONFERENCE_ERRORS, UPDATE_CONFERENCE_ERRORS } from '@/constants/errors';
 
 const ConferencesPage: FC = () => {
 
@@ -97,16 +98,23 @@ const Conferences: FC = () => {
                     slot,
                     date,
                     speakerId: null!,
-                    room: TalksService.Models.Conference.Room.RoomA,
+                    room: filters.room || rooms[0],
                 }}
-                onSubmit={async (form) => { // [error-handling] - TODO: Error handling
+                onSubmit={async (form) => {
                     const response = await talksService.conferences.create(form);
-                    if (!response.is(204))
-                        return toast.openDefaultFailure();
+                    if (response.is(204)) {
+                        modal.close();
+                        conferencesRequest.refresh();
+                        return toast.openDefaultSuccess();
+                    }
 
-                    modal.close();
-                    conferencesRequest.refresh();
-                    toast.openDefaultSuccess();
+                    if (response.is(400))
+                        return toast.open({
+                            variant: 'destructive',
+                            description: CREATE_CONFERENCE_ERRORS[response.body.type],
+                        });
+
+                    return toast.openDefaultFailure();
                 }}
                 onCancel={modal.close}
             />
@@ -124,14 +132,21 @@ const Conferences: FC = () => {
                     speakerId: null!,
                     room: TalksService.Models.Conference.Room.RoomA,
                 }}
-                onSubmit={async (form) => { // [error-handling] - TODO: Error handling
+                onSubmit={async (form) => {
                     const response = await talksService.conferences.create(form);
-                    if (!response.is(204))
-                        return toast.openDefaultFailure();
+                    if (response.is(204)) {
+                        modal.close();
+                        conferencesRequest.refresh();
+                        return toast.openDefaultSuccess();
+                    }
 
-                    modal.close();
-                    conferencesRequest.refresh();
-                    toast.openDefaultSuccess();
+                    if (response.is(400))
+                        return toast.open({
+                            variant: 'destructive',
+                            description: CREATE_CONFERENCE_ERRORS[response.body.type],
+                        });
+
+                    return toast.openDefaultFailure();
                 }}
                 onCancel={modal.close}
             />
@@ -147,14 +162,21 @@ const Conferences: FC = () => {
                     ...rest,
                     speakerId: conference.id
                 }}
-                onSubmit={async (form) => { // [error-handling] - TODO: Error handling
+                onSubmit={async (form) => {
                     const response = await talksService.conferences.update(conference.id, form);
-                    if (!response.is(204))
-                        return toast.openDefaultFailure();
+                    if (response.is(204)) {
+                        modal.close();
+                        conferencesRequest.refresh();
+                        return toast.openDefaultSuccess();
+                    }
 
-                    modal.close();
-                    conferencesRequest.refresh();
-                    toast.openDefaultSuccess();
+                    if (response.is(400))
+                        return toast.open({
+                            variant: 'destructive',
+                            description: UPDATE_CONFERENCE_ERRORS[response.body.type],
+                        });
+
+                    return toast.openDefaultFailure();
                 }}
                 onCancel={modal.close}
             />
@@ -164,7 +186,7 @@ const Conferences: FC = () => {
     const handleDeleteConference = (speaker: TalksService.Models.Conference.Get) => {
         modal.openWith(
             <Confirmation
-                onValidate={async () => { // [error-handling] - TODO: Error handling
+                onValidate={async () => {
                     const response = await talksService.conferences.delete(speaker.id);
                     if (!response.is(204))
                         return toast.openDefaultFailure();
@@ -180,20 +202,34 @@ const Conferences: FC = () => {
 
     const handleJoinConference = async (conference: TalksService.Models.Conference.Get) => {
         const response = await talksService.conferences.join(conference.id);
-        if (!response.is(204))
-            return toast.openDefaultFailure();
+        if (response.is(204)) {
+            conferencesRequest.refresh();
+            return toast.openDefaultSuccess();
+        }
 
-        conferencesRequest.refresh();
-        toast.openDefaultSuccess();
+        if (response.is(400))
+            return toast.open({
+                variant: 'destructive',
+                description: JOIN_CONFERENCE_ERRORS[response.body.type],
+            });
+
+        return toast.openDefaultFailure();
     }
 
     const handleLeaveConference = async (conference: TalksService.Models.Conference.Get) => {
         const response = await talksService.conferences.leave(conference.id);
-        if (!response.is(204))
-            return toast.openDefaultFailure();
+        if (response.is(204)) {
+            conferencesRequest.refresh();
+            return toast.openDefaultSuccess();
+        }
 
-        conferencesRequest.refresh();
-        toast.openDefaultSuccess();
+        if (response.is(400))
+            return toast.open({
+                variant: 'destructive',
+                description: LEAVE_CONFERENCE_ERRORS[response.body.type],
+            });
+
+        return toast.openDefaultFailure();
     }
 
     // Filtered

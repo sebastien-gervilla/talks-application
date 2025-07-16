@@ -44,6 +44,7 @@ export interface Join extends HttpResponses {
         type:
         | 'room-already-full'
         | 'already-joined'
+        | 'slot-conflict'
         | 'unknown-error'
     };
 }
