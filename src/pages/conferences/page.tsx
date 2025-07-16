@@ -10,9 +10,10 @@ import { TalksService, talksService } from '@/services/talks-service';
 import { Form, FormHandler } from '@/modules/form';
 import { Header } from '@/components/Header';
 import { RouteSegment } from '@/application/router/types';
-import { PenLine, Plus, Users, X } from 'lucide-react';
-import { ConferenceForm } from './components';
+import { Calendar, ListFilter, PenLine, Plus, Users, X } from 'lucide-react';
+import { ConferenceForm, CreateConferenceForm } from './components';
 import { isSameDay } from '@/utils/date-utils';
+import { CONFERENCES_DAYS, getTimeFromSlot } from '@/constants/conferences';
 
 const ConferencesPage: FC = () => {
 
@@ -43,6 +44,8 @@ const Conferences: FC = () => {
     const modal = useModal();
     const toast = useToast();
 
+    const [view, setView] = useState<View>('schedule');
+
     const [filters, setFilters] = useState<TalksService.Models.Conference.GetQuery>({
         name: '',
     });
@@ -68,6 +71,30 @@ const Conferences: FC = () => {
                     name: '',
                     slot,
                     date,
+                    speakerId: null!,
+                    room: TalksService.Models.Conference.Room.RoomA,
+                }}
+                onSubmit={async (form) => { // [error-handling] - TODO: Error handling
+                    const response = await talksService.conferences.create(form);
+                    if (!response.is(204))
+                        return toast.openDefaultFailure();
+
+                    modal.close();
+                    conferencesRequest.refresh();
+                    toast.openDefaultSuccess();
+                }}
+                onCancel={modal.close}
+            />
+        );
+    }
+
+    const handleCreateConference = () => {
+        modal.openWith(
+            <CreateConferenceForm
+                initialForm={{
+                    name: '',
+                    slot: 1,
+                    date: CONFERENCES_DAYS[0],
                     speakerId: null!,
                     room: TalksService.Models.Conference.Room.RoomA,
                 }}
@@ -143,6 +170,19 @@ const Conferences: FC = () => {
         toast.openDefaultSuccess();
     }
 
+    // Filtered
+
+    const getConferences = () => {
+        const displayed: JSX.Element[] = [];
+
+        for (const conference of conferences)
+            displayed.push(getSlot(conference));
+
+        return displayed;
+    }
+
+    // Schedule view
+
     const displayDays = () => {
         const displayed: JSX.Element[] = [];
 
@@ -169,65 +209,9 @@ const Conferences: FC = () => {
         for (let slot = START_SLOT; slot < MAX_SLOTS; slot++) {
             const conference = day.conferences.find(conference => conference.slot === slot);
             if (!conference)
-                displayed.push(
-                    <div
-                        key={slot}
-                        className={'slot empty' + (isAdministrator ? ' editable' : '')}
-                        onClick={() => isAdministrator && handleNewConference(day.date, slot)}
-                    >
-                        {isAdministrator ? <Plus /> : 'Vide'}
-                    </div>
-                );
-            else displayed.push(
-                <div
-                    key={slot}
-                    className="slot conference"
-                >
-                    <div className="top">
-                        <p className='name'>{conference.name}</p>
-                        {isAdministrator && (
-                            <div className="actions">
-                                <button
-                                    className='icon-button'
-                                    onClick={() => handleUpdateConference(conference)}
-                                >
-                                    <PenLine />
-                                </button>
-                                <button
-                                    className='icon-button destructive'
-                                    onClick={() => handleDeleteConference(conference)}
-                                >
-                                    <X />
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                    <p className='room'><span>Salle</span> : {conference.room}</p>
-                    <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
-                    <div className="bottom">
-                        <div className="participants">
-                            <Users />
-                            <p>{conference.users.length}/{ROOM_MAX_USERS}</p>
-                        </div>
-                        {!conference.users.includes(user.id) ? (
-                            <button
-                                className='animated-link'
-                                onClick={() => handleJoinConference(conference)}
-                                disabled={conference.users.length >= ROOM_MAX_USERS}
-                            >
-                                Rejoindre
-                            </button>
-                        ) : (
-                            <button
-                                className='animated-link destructive'
-                                onClick={() => handleLeaveConference(conference)}
-                            >
-                                Quitter
-                            </button>
-                        )}
-                    </div>
-                </div>
-            );
+                displayed.push(getEmptySlot(slot, () => isAdministrator && handleNewConference(day.date, slot)));
+            else
+                displayed.push(getSlot(conference));
         }
 
         return displayed;
@@ -247,6 +231,73 @@ const Conferences: FC = () => {
         return daysConferences;
     }
 
+    // Global rendering
+
+    const getSlot = (conference: TalksService.Models.Conference.Get) => {
+        return (
+            <div
+                key={`${conference.id}-${conference.slot}`}
+                className="slot conference"
+            >
+                <div className="top">
+                    <p className='name'>{conference.name}</p>
+                    {isAdministrator && (
+                        <div className="actions">
+                            <button
+                                className='icon-button'
+                                onClick={() => handleUpdateConference(conference)}
+                            >
+                                <PenLine />
+                            </button>
+                            <button
+                                className='icon-button destructive'
+                                onClick={() => handleDeleteConference(conference)}
+                            >
+                                <X />
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <p className='room'><span>Salle</span> : {conference.room}</p>
+                <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
+                <div className="bottom">
+                    <div className="participants">
+                        <Users />
+                        <p>{conference.users.length}/{ROOM_MAX_USERS}</p>
+                    </div>
+                    {!conference.users.includes(user.id) ? (
+                        <button
+                            className='animated-link'
+                            onClick={() => handleJoinConference(conference)}
+                            disabled={conference.users.length >= ROOM_MAX_USERS}
+                        >
+                            Rejoindre
+                        </button>
+                    ) : (
+                        <button
+                            className='animated-link destructive'
+                            onClick={() => handleLeaveConference(conference)}
+                        >
+                            Quitter
+                        </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    const getEmptySlot = (key: string | number, onClick: () => void) => {
+        return (
+            <div
+                key={key}
+                className={'slot empty' + (isAdministrator ? ' editable' : '')}
+                onClick={onClick}
+            >
+                {isAdministrator ? <Plus /> : 'Vide'}
+            </div>
+        );
+    }
+
     return (
         <div className="conferences-flow">
             <Modal {...modal} />
@@ -260,10 +311,33 @@ const Conferences: FC = () => {
                         onChange={handleChanges}
                     />
                 </div>
+                <div className="view-selector">
+                    <button
+                        className={'tab' + (view === 'filtered' ? ' selected' : '')}
+                        onClick={() => setView('filtered')}
+                    >
+                        <ListFilter />
+                        Filtrée
+                    </button>
+                    <button
+                        className={'tab' + (view === 'schedule' ? ' selected' : '')}
+                        onClick={() => setView('schedule')}
+                    >
+                        <Calendar />
+                        Calendrier
+                    </button>
+                </div>
             </div>
-            <div className="days">
-                {displayDays()}
-            </div>
+            {view === 'schedule' ? (
+                <div className="days">
+                    {displayDays()}
+                </div>
+            ) : (
+                <div className="conferences">
+                    {getEmptySlot('empty-slot', handleCreateConference)}
+                    {getConferences()}
+                </div>
+            )}
         </div>
     );
 }
@@ -293,12 +367,10 @@ const days = [
 const START_SLOT = 1;
 const MAX_SLOTS = 10;
 
-const START_SLOT_HOUR = 8;
-
 const ROOM_MAX_USERS = 25;
 
-const getTimeFromSlot = (slot: number) => {
-    return START_SLOT_HOUR + slot - 1;
-}
+type View =
+    | 'schedule'
+    | 'filtered'
 
 export default ConferencesPage;
