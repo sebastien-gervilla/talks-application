@@ -120,6 +120,15 @@ const CreateConferenceForm = <T extends TalksService.Models.Conference.Create>({
                     })}
                 />
             </div>
+            <div className="row">
+                <Form.TextArea
+                    label='Description'
+                    name='description'
+                    value={form.description}
+                    onChange={handleChanges}
+                    columns={3}
+                />
+            </div>
             <div className="row footer">
                 <button
                     className='animated text ghost'

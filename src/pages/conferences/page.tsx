@@ -69,6 +69,7 @@ const Conferences: FC = () => {
             <ConferenceForm
                 initialForm={{
                     name: '',
+                    description: '',
                     slot,
                     date,
                     speakerId: null!,
@@ -93,6 +94,7 @@ const Conferences: FC = () => {
             <CreateConferenceForm
                 initialForm={{
                     name: '',
+                    description: '',
                     slot: 1,
                     date: CONFERENCES_DAYS[0],
                     speakerId: null!,
@@ -260,6 +262,7 @@ const Conferences: FC = () => {
                 </div>
                 <p className='room'><span>Salle</span> : {conference.room}</p>
                 <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
+                <p className='description'><span>Description</span> : {conference.description}</p>
                 <div className="bottom">
                     <div className="participants">
                         <Users />
