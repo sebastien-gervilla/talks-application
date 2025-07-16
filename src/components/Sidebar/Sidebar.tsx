@@ -8,6 +8,7 @@ import './sidebar.scss';
 import { useAuthentication, useModal, usePopover } from '@/hooks';
 import { Modal, Popover } from '@/components';
 import { UserProfile } from './UserProfile';
+import { TalksService } from '@/services/talks-service';
 
 interface Props {
     isReduced: boolean;
@@ -75,7 +76,7 @@ const Sidebar: FC<Props> = ({ isReduced }) => {
                         {user.firstName} {user.lastName}
                     </p>
                     <p className='role'>
-                        {user.role}
+                        {roles[user.role]}
                     </p>
                 </div>
                 <User />
@@ -198,5 +199,13 @@ const talksTabs: Tabs = [
 //         permission: API.Permission.UNIVERSE_READ,
 //     },
 // ]
+
+const roles: {
+    [key in TalksService.Models.User.Role]: string;
+} = {
+    administrator: 'Administrateur',
+    member: 'Membre',
+    sponsor: 'Sponsor',
+};
 
 export default Sidebar;

@@ -25,7 +25,7 @@
                     display: flex;
                     flex-grow: 1;
 
-                    height: 200px;
+                    height: 220px;
 
                     border: 2px solid $grey-300;
                     border-radius: 8px;
@@ -39,7 +39,6 @@
                     &.conference {
                         display: flex;
                         flex-direction: column;
-                        gap: 8px;
 
                         padding: 24px;
 
@@ -60,10 +59,18 @@
                             font-size: $size-24;
                         }
 
-                        P.room, p.schedule {
+                        P.room, p.schedule, p.description {
                             span {
                                 font-weight: 500;
                             }
+                        }
+
+                        p.description {
+                            height: 42px;
+                            margin-bottom: 8px;
+
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
 
                         .bottom {
