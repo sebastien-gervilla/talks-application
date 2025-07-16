@@ -13,7 +13,7 @@ import { RouteSegment } from '@/application/router/types';
 import { Calendar, ListFilter, PenLine, Plus, Users, X } from 'lucide-react';
 import { ConferenceForm, CreateConferenceForm } from './components';
 import { isSameDay } from '@/utils/date-utils';
-import { CONFERENCES_DAYS, getTimeFromSlot } from '@/constants/conferences';
+import { CONFERENCES_DAYS, getTimeFromSlot, MAX_SLOTS, ROOM_MAX_USERS, rooms, START_SLOT } from '@/constants/conferences';
 
 const ConferencesPage: FC = () => {
 
@@ -44,18 +44,37 @@ const Conferences: FC = () => {
     const modal = useModal();
     const toast = useToast();
 
-    const [view, setView] = useState<View>('schedule');
+    const [view, setView] = useState<View>(isAdministrator ? 'schedule' : 'filtered');
 
-    const [filters, setFilters] = useState<TalksService.Models.Conference.GetQuery>({
-        name: '',
-    });
+    const [filters, setFilters] = useState(defaultFilters);
 
     const conferencesRequest = useRequest({
         request: (controller) => talksService.conferences.get(filters, controller),
+        dependencies: [filters],
     });
     const conferences = conferencesRequest.response?.is(200)
         ? conferencesRequest.response.body
         : [];
+
+    const speakersRequest = useRequest({
+        request: talksService.speakers.get,
+    });
+    const speakers = speakersRequest.response?.is(200)
+        ? speakersRequest.response.body
+        : [];
+
+    const handleChangeView = (newView: View) => {
+        if (newView === 'schedule') {
+            setFilters({
+                ...defaultFilters,
+                room: rooms[0],
+            });
+        } else {
+            setFilters(defaultFilters);
+        }
+
+        setView(newView);
+    }
 
     const handleChanges: FormHandler<ValueOf<typeof filters>> = ({ name, value }) => {
         setFilters(current => ({
@@ -69,6 +88,7 @@ const Conferences: FC = () => {
             <ConferenceForm
                 initialForm={{
                     name: '',
+                    description: '',
                     slot,
                     date,
                     speakerId: null!,
@@ -93,6 +113,7 @@ const Conferences: FC = () => {
             <CreateConferenceForm
                 initialForm={{
                     name: '',
+                    description: '',
                     slot: 1,
                     date: CONFERENCES_DAYS[0],
                     speakerId: null!,
@@ -260,6 +281,7 @@ const Conferences: FC = () => {
                 </div>
                 <p className='room'><span>Salle</span> : {conference.room}</p>
                 <p className='schedule'><span>Horaire</span> : {getTimeFromSlot(conference.slot)}h - {getTimeFromSlot(conference.slot) + 1}h</p>
+                <p className='description'><span>Description</span> : {conference.description}</p>
                 <div className="bottom">
                     <div className="participants">
                         <Users />
@@ -298,30 +320,111 @@ const Conferences: FC = () => {
         );
     }
 
+    const getSpeakersOptions = () => {
+        let options = speakers.map(speaker => ({
+            key: speaker.id,
+            value: speaker.id,
+            label: `${speaker.firstName} ${speaker.lastName}`,
+        }));
+
+        return [{
+            key: 'all',
+            value: undefined,
+            label: 'Tous',
+        }, ...options];
+    }
+
+    const getRoomsOptions = () => {
+        let options = rooms.map(room => ({
+            key: room,
+            value: room,
+            label: room,
+        }));
+
+        return [{
+            key: 'all',
+            value: undefined,
+            label: 'Tous',
+        }, ...options];
+    }
+
     return (
         <div className="conferences-flow">
             <Modal {...modal} />
             <Toast {...toast} />
             <div className="header">
-                <div className="filters">
-                    <Form.Field
-                        label='Nom'
-                        name='name'
-                        value={filters.name}
-                        onChange={handleChanges}
-                    />
-                </div>
+                {view === 'schedule' ? (
+                    <div className="filters">
+                        <Form.Select
+                            label='Salle'
+                            name='room'
+                            value={filters.room}
+                            onChange={handleChanges}
+                            options={rooms}
+                            mapOption={(option) => ({
+                                key: option,
+                                value: option,
+                                label: option,
+                            })}
+                        />
+                    </div>
+                ) : (
+                    <div className="filters">
+                        <Form.Field
+                            label='Nom'
+                            name='name'
+                            value={filters.name}
+                            onChange={handleChanges}
+                        />
+                        <Form.Select
+                            label='Salle'
+                            name='room'
+                            value={filters.room}
+                            onChange={handleChanges}
+                            options={getRoomsOptions()}
+                            mapOption={(option) => ({
+                                key: option.key,
+                                value: option.value,
+                                label: option.label,
+                            })}
+                        />
+                        <Form.Select
+                            label='Conférencier'
+                            name='speakerId'
+                            value={filters.speakerId}
+                            onChange={handleChanges}
+                            options={getSpeakersOptions()}
+                            mapOption={(option) => ({
+                                key: option.key,
+                                value: option.value,
+                                label: option.label,
+                            })}
+                        />
+                        <Form.Select
+                            label='Date'
+                            name='date'
+                            value={filters.date}
+                            onChange={handleChanges}
+                            options={getDateFilterOptions()}
+                            mapOption={(option) => ({
+                                key: option.key,
+                                value: option.value,
+                                label: option.label,
+                            })}
+                        />
+                    </div>
+                )}
                 <div className="view-selector">
                     <button
                         className={'tab' + (view === 'filtered' ? ' selected' : '')}
-                        onClick={() => setView('filtered')}
+                        onClick={() => handleChangeView('filtered')}
                     >
                         <ListFilter />
                         Filtrée
                     </button>
                     <button
                         className={'tab' + (view === 'schedule' ? ' selected' : '')}
-                        onClick={() => setView('schedule')}
+                        onClick={() => handleChangeView('schedule')}
                     >
                         <Calendar />
                         Calendrier
@@ -342,6 +445,10 @@ const Conferences: FC = () => {
     );
 }
 
+const defaultFilters: TalksService.Models.Conference.GetQuery = {
+    name: '',
+};
+
 type ConferencesByDate = {
     date: Date;
     conferences: TalksService.Models.Conference.Get[];
@@ -349,7 +456,7 @@ type ConferencesByDate = {
 
 const getDefaultDaysConferences = (): ConferencesByDate[] => {
     const conferencesByDate: ConferencesByDate[] = [];
-    for (const day of days) {
+    for (const day of CONFERENCES_DAYS) {
         conferencesByDate.push({
             date: day,
             conferences: [],
@@ -358,16 +465,19 @@ const getDefaultDaysConferences = (): ConferencesByDate[] => {
     return conferencesByDate;
 }
 
-const days = [
-    new Date(2025, 5, 18),  // June 18, 2025
-    new Date(2025, 5, 19),  // June 20, 2025
-    new Date(2025, 5, 20),  // June 20, 2025
-];
+const getDateFilterOptions = () => {
+    let options = CONFERENCES_DAYS.map(date => ({
+        key: date.toISOString(),
+        value: date,
+        label: date.toDateString(),
+    }));
 
-const START_SLOT = 1;
-const MAX_SLOTS = 10;
-
-const ROOM_MAX_USERS = 25;
+    return [{
+        key: 'all',
+        value: undefined,
+        label: 'Tous',
+    }, ...options];
+}
 
 type View =
     | 'schedule'
