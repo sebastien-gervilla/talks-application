@@ -5,6 +5,11 @@ export interface GetCurrent extends HttpResponses {
     200: Models.User.Current;
 }
 
+export interface DeleteCurrent extends HttpResponses {
+    204: never;
+    404: never;
+}
+
 export interface Register extends HttpResponses {
     204: never;
     400: {

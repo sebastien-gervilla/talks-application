@@ -7,6 +7,7 @@ import { LogOut, MicVocal, Presentation, User } from 'lucide-react';
 import './sidebar.scss';
 import { useAuthentication, useModal, usePopover } from '@/hooks';
 import { Modal, Popover } from '@/components';
+import { UserProfile } from './UserProfile';
 
 interface Props {
     isReduced: boolean;
@@ -38,9 +39,21 @@ const Sidebar: FC<Props> = ({ isReduced }) => {
         });
     }
 
+    const handleShowProfile = () => {
+        modal.openWith(
+            <UserProfile
+                onCancel={modal.close}
+            />
+        );
+    }
+
     const handleOpenUserMenu = ({ currentTarget }: MouseEvent<HTMLElement>) => {
         popover.openFrom(currentTarget, (
             <div className="user-menu menu">
+                <button key='profile' className="item" onClick={handleShowProfile}>
+                    <User />
+                    <p>Profile</p>
+                </button>
                 <button key='logout' className="item" onClick={logout}>
                     <LogOut />
                     <p>Se déconnecter</p>

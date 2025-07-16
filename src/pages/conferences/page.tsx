@@ -154,6 +154,7 @@ const Conferences: FC = () => {
                     key={day.date.toISOString()}
                     className="day"
                 >
+                    <p>{day.date.toLocaleDateString()}</p>
                     {getDaySlots(day)}
                 </div>
             );
